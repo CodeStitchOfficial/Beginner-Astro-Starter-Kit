@@ -1,4 +1,4 @@
-  <h3 align="center">Beginner Astro v4 Starter Kit</h3>
+  <h3 align="center">Beginner Astro Starter Kit</h3>
 
   <p align="center">
     This beginner kit includes a pre-configured Astro setup, along with five pages filled with CodeStitch components. Everything is ready to go right from the start, offering a fantastic introduction to the advantages of a Static Site Generator, complete with LESS preprocessing. This kit also leverages the power of a few Astro tools such as Astro components, scoped styling and scripting etc.
@@ -39,7 +39,7 @@
 ## Overview
 
 This beginner kit includes a pre-configured <a href="https://www.astro.build">Astro</a> environment, which
-allows for repeated components, centralized data and greater room to scale as your clients grow. The kit runs the latest major Astro version, v4.
+allows for repeated components, centralized data and greater room to scale as your clients grow. The kit runs the latest major Astro version, v5.
 
 An example website has also been provided, with easy substitution of website sections possible through the use of <a href="https://codestitch.app/">CodeStitch's
 vanilla component library</a>. This kit aims to get any project off the ground in as little time as possible, with deployment being possible in as little as two
@@ -75,7 +75,7 @@ Only the vanilla web technologies are _required_ before using this kit, with som
 
 ## Features
 
-* Runs on Astro v4
+* Runs on Astro v5
 * Leveraging components, props and scoped styles, as demonstrated in `/src/components/Landing.astro` for example
 * Leveraging Astro's built-in components such as `<Picture />`, as demonstrated in `/src/components/Landing.astro` for example
 * Automatically generates `sitemap-index.xml` and `sitemap-0.xml` thanks to the [Astro Sitemap integration](https://docs.astro.build/en/guides/integrations-guide/sitemap/)
@@ -468,7 +468,7 @@ Learn how to set them up on [Netlify documentation](https://docs.netlify.com/for
 ## Acknowledgments
 
 The author would like to acknowledge:
-* [Cedar Studios](https://github.com/cedar-studios) - Their [Intermediate-Astro-Kit-LESS](https://github.com/cedar-studios/Intermediate-Astro-Kit-LESS/tree/master) is the base of this template, which aims to improve on a few issues such as updates to Astro v4.
+* [Cedar Studios](https://github.com/cedar-studios) - Their [Intermediate-Astro-Kit-LESS](https://github.com/cedar-studios/Intermediate-Astro-Kit-LESS/tree/master) is the base of this template.
 * [CodeStitch](https://codestitch.app/) - Some of their free stitches were used in this template.
 <a name="Conclusion"></a>
 
