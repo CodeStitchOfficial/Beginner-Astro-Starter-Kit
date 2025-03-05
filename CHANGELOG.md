@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1
+### patch change
+- Astro has been upgraded to v5.4.2
+You can find an exhaustive list of all changes in [Astro’s changelog](https://github.com/withastro/astro/blob/main/packages/astro/CHANGELOG.md)
+
 ## 2.0.0
 
 ### Major changes
