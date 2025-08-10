@@ -1,0 +1,15 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "schedule:monthly",
+    "group:allNonMajor",
+    ":automergePatch",
+    ":disableDependencyDashboard"
+  ],
+  "labels": ["dependencies"],
+  "rangeStrategy": "bump",
+  "postUpdateOptions": [
+    "npmDedupe"
+  ]
+}
