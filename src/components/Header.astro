@@ -7,80 +7,18 @@ import { Image } from "astro:assets";
 
 <!-- ============================================ --><!--                 Navigation                   --><!-- ============================================ -->
 <header id="cs-navigation">
-	<div class="cs-top-bar">
-		<div class="cs-top-container">
-			<!--We have 2 cs-logo links, this is because on mobile it needs to be in the same container as the nav toggle, and on desktop it needs to be in the top container. This is the simplest solution to do this-->
-			<a
-				href=""
-				class="cs-logo cs-top-logo"
-				aria-label="Return to [Company Name] Home page"
-			>
-				<!--White Logo-->
-				<!--This nav has an on scroll effect to rotate the images to swap the light version with the dark version so it shows up on the white background that animates behind the nav-->
-				<img
-					class="cs-light"
-					src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Logos/agency-logo.svg"
-					alt=""
-					width="197"
-					height="43"
-					aria-hidden="true"
-					decoding="async"
-				/>
-				<!--Dark Logo-->
-				<img
-					class="cs-dark"
-					src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Logos/agency-logo-dark.svg"
-					alt=""
-					width="197"
-					height="43"
-					aria-hidden="true"
-					decoding="async"
-				/>
-			</a>
-			<div class="cs-top-contact">
-				<a href="tel:+84 1985 33 999" class="cs-top-link">
-					<img
-						class="cs-link-icon"
-						src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/phone-1a.svg"
-						alt=""
-						width="24"
-						height="24"
-						aria-hidden="true"
-						decoding="async"
-					/>
-					+84 1985 33 999
-				</a>
-			</div>
-			<!--Dark Mode toggle, uncomment button code if you want to enable a dark mode toggle, just make sure you got the CSS with dark mode code to go with it-->
-			<DarkModeToggle />
-			<a href="" class="cs-button-solid cs-nav-button">Request A Quote</a>
-		</div>
-	</div>
 	<div class="cs-container">
 		<!--Nav Logo-->
 		<a
 			href=""
-			class="cs-logo cs-bottom-logo"
-			aria-label="Return to [Company Name] Home page"
+			class="cs-logo"
+			aria-label="Return to [Company Name] home page"
 		>
-			<!--White Logo-->
-			<!--This nav has an on scroll effect to rotate the images to swap the light version with the dark version so it shows up on the white background that animates behind the nav-->
 			<img
-				class="cs-light"
-				src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Logos/agency-logo.svg"
+				src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/logo.svg"
 				alt=""
-				width="197"
-				height="43"
-				aria-hidden="true"
-				decoding="async"
-			/>
-			<!--Dark Logo-->
-			<img
-				class="cs-dark"
-				src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Logos/agency-logo-dark.svg"
-				alt=""
-				width="197"
-				height="43"
+				width="210"
+				height="29"
 				aria-hidden="true"
 				decoding="async"
 			/>
@@ -116,18 +54,60 @@ import { Image } from "astro:assets";
 					<li class="cs-li">
 						<a href="" class="cs-li-link"> About </a>
 					</li>
-					<li class="cs-li">
-						<a href="" class="cs-li-link"> Services </a>
+					<!--Copy and paste this cs-dropdown list item and replace any .cs-li with this cs-dropdown group to make a new dropdown and it will work-->
+					<!-- Note: When copying this dropdown, update the id attribute with an appropriate name (e.g., "services-dropdown-toggle", "products-dropdown-toggle") and ensure the aria-labelledby attribute on the ul matches the button's id -->
+					<li class="cs-li cs-dropdown">
+						<button
+							class="cs-li-link cs-dropdown-toggle"
+							aria-expanded="false"
+							aria-haspopup="menu"
+							id="services-dropdown-toggle"
+						>
+							Services
+							<img
+								class="cs-drop-icon"
+								src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons/down-gold.svg"
+								alt=""
+								width="15"
+								height="15"
+								decoding="async"
+								aria-hidden="true"
+							/>
+						</button>
+						<ul
+							class="cs-drop-ul"
+							aria-labelledby="services-dropdown-toggle"
+						>
+							<li class="cs-drop-li">
+								<a href="" class="cs-li-link cs-drop-link"
+									>Highlights</a
+								>
+							</li>
+							<li class="cs-drop-li">
+								<a href="" class="cs-li-link cs-drop-link"
+									>Women's Hair Cuts</a
+								>
+							</li>
+						</ul>
 					</li>
 					<li class="cs-li">
-						<a href="" class="cs-li-link"> Blog </a>
+						<a href="" class="cs-li-link"> About Us </a>
 					</li>
 					<li class="cs-li">
-						<a href="" class="cs-li-link"> Contact </a>
+						<a href="" class="cs-li-link"> About Us </a>
+					</li>
+					<li class="cs-li">
+						<a href="" class="cs-li-link"> FAQ </a>
 					</li>
 				</ul>
 			</div>
 		</nav>
+		<a href="" class="cs-button-solid cs-nav-button">Contact Us</a>
+		<!--Dark Mode toggle, uncomment button code if you want to enable a dark mode toggle-->
+		<!--<button id="dark-mode-toggle" aria-label="dark mode toggle" aria-pressed="false">
+            <svg class="cs-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480" xml:space="preserve" aria-hidden="true"><path d="M459.782 347.328c-4.288-5.28-11.488-7.232-17.824-4.96-17.76 6.368-37.024 9.632-57.312 9.632-97.056 0-176-78.976-176-176 0-58.4 28.832-112.768 77.12-145.472 5.472-3.712 8.096-10.4 6.624-16.832S285.638 2.4 279.078 1.44C271.59.352 264.134 0 256.646 0c-132.352 0-240 107.648-240 240s107.648 240 240 240c84 0 160.416-42.688 204.352-114.176 3.552-5.792 3.04-13.184-1.216-18.496z" /></svg>
+            <img class="cs-sun" aria-hidden="true" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Icons%2Fsun.svg" decoding="async" alt="" width="15" height="15">
+        </button>-->
 	</div>
 </header>
 
@@ -138,18 +118,16 @@ import { Image } from "astro:assets";
 
 	/* Mobile - 360px */
 	@media only screen and (min-width: 0px) {
-		body {
-			&.dark-mode {
-				#dark-mode-toggle {
-					.cs-sun {
-						opacity: 1;
-						transform: translate(-50%, -50%);
-					}
+		body.dark-mode {
+			#dark-mode-toggle {
+				.cs-sun {
+					opacity: 1;
+					transform: translate(-50%, -50%);
+				}
 
-					.cs-moon {
-						opacity: 0;
-						transform: translate(-50%, -150%);
-					}
+				.cs-moon {
+					opacity: 0;
+					transform: translate(-50%, -150%);
 				}
 			}
 		}
@@ -163,9 +141,10 @@ import { Image } from "astro:assets";
 			border: none;
 			display: block;
 			position: absolute;
-			top: 0;
-			right: (16/16rem);
+			top: 50%;
+			right: (90/16rem);
 			z-index: 1000;
+			transform: translateY(-50%);
 
 			img,
 			svg {
@@ -184,9 +163,8 @@ import { Image } from "astro:assets";
 				// Transition properties
 				transition:
 					transform 0.3s,
-					opacity 0.3s,
-					fill 0.3s;
-				fill: #1a1a1a;
+					opacity 0.3s;
+				fill: #fff;
 			}
 
 			.cs-sun {
@@ -206,8 +184,8 @@ import { Image } from "astro:assets";
 		#dark-mode-toggle {
 			margin: 0;
 			position: relative;
+			top: auto;
 			right: auto;
-			bottom: auto;
 			transform: none;
 
 			&:hover {
@@ -222,91 +200,48 @@ import { Image } from "astro:assets";
 
 	/* Mobile - 1023px */
 	@media only screen and (max-width: 1023.5px) {
-		@keyframes floatAnimation {
-			0% {
-				transform: translateY(0);
-			}
-			50% {
-				transform: translateY(-0.5rem);
-			}
-			100% {
-				transform: translateY(0);
-			}
-		}
-
-		@keyframes floatAnimation2 {
-			0% {
-				transform: translateY(0);
-			}
-			50% {
-				transform: translateY(-0.7rem);
-			}
-			100% {
-				transform: translateY(0);
-			}
-		}
-
 		body {
 			&.cs-open {
 				overflow: hidden;
-
-				#cs-navigation {
-					.cs-toggle {
-						&:before {
-							opacity: 0.3;
-							top: 0px;
-							left: -2px;
-						}
-
-						&:after {
-							opacity: 0.3;
-							right: -5px;
-							bottom: -5px;
-						}
-					}
-				}
-			}
-
-			&.scroll {
-				#cs-navigation {
-					.cs-top-bar {
-						height: 0;
-					}
-
-					.cs-top-link {
-						opacity: 0;
-					}
-				}
 			}
 		}
 
 		#cs-navigation {
 			width: 100%;
-			/* prevents padding from affecting height and width */
+			/* prevents padding and border from affecting height and width */
 			box-sizing: border-box;
-			background-color: #fff;
+			padding: (20/16rem) (16/16rem);
+			background-color: #1a1a1a;
+			box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 			position: fixed;
 			z-index: 10000;
 
 			&:before {
-				/* on scroll background */
 				content: "";
 				width: 100%;
-				height: 0%;
-				background-color: rgba(0, 0, 0, 0.5);
+				height: 0vh;
+				background: rgba(0, 0, 0, 0.6);
+				opacity: 0;
 				display: block;
 				position: absolute;
 				top: 100%;
-				left: 0;
-				z-index: -1;
-				transition: height 0.4s;
-				-webkit-backdrop-filter: blur(3px);
-				backdrop-filter: blur(3px);
+				right: 0;
+				z-index: -1100;
+				transition:
+					height 0.5s,
+					opacity 0.5s;
+				-webkit-backdrop-filter: blur(10px);
+				backdrop-filter: blur(10px);
 			}
 
 			&.cs-active {
 				&:before {
 					height: 150vh;
+					opacity: 1;
+				}
+
+				.cs-toggle {
+					transform: rotate(180deg);
 				}
 
 				.cs-ul-wrapper {
@@ -321,193 +256,45 @@ import { Image } from "astro:assets";
 				}
 			}
 
-			.cs-top-bar {
-				width: 100%;
-				height: (53/16rem);
-				overflow: hidden;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				position: relative;
-				z-index: 1;
-				transition: height 0.3s;
-
-				&:before {
-					/* divider line */
-					content: "";
-					width: 100%;
-					height: 1px;
-					background: #000;
-					opacity: 0.1;
-					display: block;
-					position: absolute;
-					bottom: 0;
-					left: 0;
-					transition: background-color 0.3s;
-				}
-			}
-
-			.cs-top-container {
-				width: 100%;
-				/* prevents padding from affecting height and width */
-				box-sizing: border-box;
-				padding: (16/16rem);
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				gap: (50/16rem);
-			}
-
-			.cs-top-contact {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				gap: (24/16rem);
-			}
-
-			.cs-top-link {
-				font-size: (14/16rem);
-				line-height: 1.5em;
-				text-decoration: none;
-				margin: 0;
-				color: var(--headerColor);
-				display: flex;
-				justify-content: flex-start;
-				align-items: center;
-				gap: (8/16rem);
-				transition:
-					opacity 0.3s,
-					color 0.3s;
-			}
-
-			.cs-link-icon {
-				width: (16/16rem);
-				height: auto;
-				display: block;
-			}
-
 			.cs-container {
 				width: 100%;
-				/* prevents padding from affecting height and width */
-				box-sizing: border-box;
-				padding: (16/16rem);
 				display: flex;
 				justify-content: flex-end;
 				align-items: center;
 			}
 
 			.cs-logo {
-				width: (209/16rem);
-				height: auto;
+				width: 40%;
+				max-width: (146/16rem);
+				height: 100%;
 				margin: 0 auto 0 0;
-				/* prevents padding from affecting height and width */
+				/* prevents padding and border from affecting height and width */
 				box-sizing: border-box;
 				padding: 0;
 				display: flex;
-				justify-content: flex-start;
+				justify-content: center;
 				align-items: center;
 				z-index: 10;
-				transform-style: preserve-3d;
-				perspective: 500px;
 
 				img {
 					width: 100%;
-					height: auto;
+					height: 100%;
 					/* ensures the image never overflows the container. It stays contained within it's width and height and expands to fill it then stops once it reaches an edge */
 					object-fit: contain;
 				}
 			}
 
-			.cs-dark {
-				-webkit-backface-visibility: hidden;
-				/* Safari */
-				backface-visibility: hidden;
-				transition:
-					opacity 0.3s,
-					transform 0.6s;
-			}
-
-			.cs-light {
-				width: 100%;
-				opacity: 0;
-				-webkit-backface-visibility: hidden;
-				/* Safari */
-				backface-visibility: hidden;
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: -1;
-				transform: rotateX(180deg);
-				transition:
-					opacity 0.3s,
-					transform 0.6s;
-			}
-
-			.cs-top-logo {
-				display: none;
-			}
-
 			.cs-toggle {
-				width: (48/16rem);
-				height: (48/16rem);
+				width: (56/16rem);
+				height: (56/16rem);
 				margin: 0 0 0 auto;
 				background-color: var(--primary);
 				border: none;
-				border-radius: 50%;
+				border-radius: (4/16rem);
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				position: relative;
-
-				&:before {
-					/* floating bubble when opened */
-					content: "";
-					width: 70%;
-					height: 70%;
-					opacity: 0;
-					border: 1px solid #000;
-					border-radius: 50%;
-					display: block;
-					position: absolute;
-					top: 4px;
-					left: 4px;
-					z-index: -1;
-					transition:
-						left 0.6s,
-						top 0.3s,
-						opacity 0.6s;
-					transition-delay: 0.2s;
-					animation-name: floatAnimation;
-					animation-duration: 7s;
-					animation-timing-function: ease-in-out;
-					animation-iteration-count: infinite;
-					animation-fill-mode: forwards;
-				}
-
-				&:after {
-					/* floating bubble when opened */
-					content: "";
-					width: 50%;
-					height: 50%;
-					opacity: 0;
-					border: 1px solid #000;
-					border-radius: 50%;
-					display: block;
-					position: absolute;
-					right: 4px;
-					bottom: 4px;
-					z-index: -1;
-					transition:
-						bottom 0.6s,
-						right 0.3s,
-						opacity 0.6s;
-					transition-delay: 0.3s;
-					animation-name: floatAnimation2;
-					animation-duration: 5s;
-					animation-timing-function: ease-in-out;
-					animation-iteration-count: infinite;
-					animation-fill-mode: forwards;
-				}
+				transition: transform 0.6s;
 			}
 
 			.cs-active {
@@ -587,49 +374,21 @@ import { Image } from "astro:assets";
 			#cs-navigation {
 				background-color: var(--dark);
 
-				.cs-top-bar {
-					&:before {
-						background-color: #fff;
-					}
+				.cs-logo {
+					/* makes it white */
+					filter: grayscale(1) brightness(1000%);
 				}
 
-				.cs-top-link {
-					color: var(--bodyTextColorWhite);
-				}
-
-				.cs-dark {
-					opacity: 0;
-					transform: rotateX(180deg);
-				}
-
-				.cs-light {
-					opacity: 1;
-					transform: rotateX(0deg);
-				}
-
-				.cs-toggle {
-					&:before,
-					&:after {
-						border-color: rgba(255, 255, 255, 0.8);
-					}
+				.cs-line {
+					background-color: #fff;
 				}
 
 				.cs-ul-wrapper {
-					background-color: var(--dark);
-					box-shadow: inset rgba(255, 255, 255, 0.05) 0px 8px 24px;
+					background-color: var(--medium);
 				}
 
 				.cs-li-link {
 					color: var(--bodyTextColorWhite);
-
-					&.cs-active {
-						color: var(--primary);
-					}
-				}
-
-				.cs-link-icon {
-					/* turns it white */
-					filter: grayscale(1) brightness(1000%);
 				}
 			}
 		}
@@ -645,45 +404,44 @@ import { Image } from "astro:assets";
 			.cs-ul-wrapper {
 				width: 100%;
 				height: auto;
-				padding-bottom: (48/16rem);
-				background-color: #fff;
-				box-shadow: inset rgba(0, 0, 0, 0.05) 0px 8px 24px;
+				padding-bottom: (48/20em);
 				opacity: 0;
-				border-radius: 0 0 (20/16rem) (20/16rem);
+				background-color: #fff;
+				box-shadow: inset rgba(0, 0, 0, 0.2) 0px 8px 24px;
+				overflow: hidden;
 				position: absolute;
 				top: 100%;
 				left: 0;
 				z-index: -1;
-				overflow: hidden;
 				transform: scaleY(0);
+				transform-origin: top;
 				transition:
 					transform 0.4s,
 					opacity 0.3s;
-				transform-origin: top;
 			}
 
 			.cs-ul {
+				margin: 0;
+				padding: (48/16rem) 0 0 0;
 				width: 100%;
 				height: auto;
 				max-height: 65vh;
-				margin: 0;
-				padding: (48/16rem) 0 0 0;
+				overflow: scroll;
 				display: flex;
-				flex-direction: column;
 				justify-content: flex-start;
+				flex-direction: column;
 				align-items: center;
 				gap: (20/16rem);
-				overflow: scroll;
 			}
 
 			.cs-li {
+				width: 100%;
 				text-align: center;
 				list-style: none;
-				width: 100%;
 				margin-right: 0;
-				opacity: 0;
 				/* transition from these values */
 				transform: translateY(-4.375rem);
+				opacity: 0;
 				transition:
 					transform 0.6s,
 					opacity 0.9s;
@@ -735,6 +493,7 @@ import { Image } from "astro:assets";
 				line-height: 1.2em;
 				text-decoration: none;
 				margin: 0;
+				padding: 0.25rem;
 				color: var(--headerColor);
 				display: inline-block;
 				position: relative;
@@ -755,112 +514,258 @@ import { Image } from "astro:assets";
 	}
 
 	/*-- -------------------------- -->
+<---     Navigation Dropdown    -->
+<--- -------------------------- -*/
+
+	/* Mobile - 1023px */
+	@media only screen and (max-width: 1023.5px) {
+		#cs-navigation {
+			.cs-li {
+				text-align: center;
+				width: 100%;
+				display: block;
+			}
+
+			.cs-dropdown {
+				position: relative;
+				color: var(--bodyTextColorWhite);
+				&.cs-active {
+					.cs-drop-ul {
+						height: auto;
+						opacity: 1;
+						visibility: visible;
+						margin: (12/16rem) 0 0 0;
+						padding: (12/16rem) 0;
+					}
+
+					.cs-drop-link {
+						opacity: 1;
+					}
+				}
+
+				.cs-li-link {
+					position: relative;
+					transition: opacity 0.3s;
+				}
+			}
+
+			.cs-dropdown-toggle {
+				/* Reset default button styles */
+				background: none;
+				border: none;
+				text-align: inherit;
+				cursor: pointer;
+
+				/* Remove any default focus styles */
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+			}
+
+			.cs-drop-icon {
+				width: (15/16rem);
+				height: auto;
+				position: absolute;
+				top: 50%;
+				right: (-20/16rem);
+				transform: translateY(-50%);
+			}
+
+			.cs-drop-ul {
+				width: 100%;
+				height: 0;
+				margin: 0;
+				padding: 0;
+				background-color: var(--primary);
+				overflow: hidden;
+				opacity: 0;
+				visibility: hidden;
+				display: flex;
+				justify-content: flex-start;
+				flex-direction: column;
+				align-items: center;
+				gap: (12/16rem);
+				transition:
+					padding 0.3s,
+					margin 0.3s,
+					height 0.3s,
+					opacity 0.3s,
+					visibility 0.3s;
+			}
+
+			.cs-drop-li {
+				list-style: none;
+			}
+
+			.cs-li-link {
+				&.cs-drop-link {
+					/* 14px - 16px */
+					font-size: clamp(0.875rem, 2vw, 1.25rem);
+					color: #fff;
+				}
+			}
+		}
+	}
+
+	/* Desktop - 1024px */
+	@media only screen and (min-width: 1024px) {
+		#cs-navigation {
+			.cs-dropdown {
+				position: relative;
+				&:hover,
+				&.cs-active {
+					cursor: pointer;
+					.cs-drop-ul {
+						transform: scaleY(1);
+						opacity: 1;
+						visibility: visible;
+					}
+
+					.cs-drop-li {
+						opacity: 1;
+						transform: translateY(0);
+					}
+				}
+			}
+
+			.cs-dropdown-toggle {
+				/* Reset default button styles */
+				background: none;
+				border: none;
+				text-align: inherit;
+				cursor: pointer;
+
+				/* Remove any default focus styles */
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				appearance: none;
+			}
+
+			.cs-drop-icon {
+				width: (15/16rem);
+				height: auto;
+				display: inline-block;
+			}
+
+			.cs-drop-ul {
+				min-width: (200/16rem);
+				margin: 0;
+				padding: 0;
+				background-color: #1a1a1a;
+				overflow: hidden;
+				opacity: 0;
+				visibility: hidden;
+				border-bottom: 5px solid var(--primary);
+				/* if you have 8 or more links in your dropdown nav, uncomment the columns property to make the list into 2 even columns. Change it to 3 or 4 if you need extra columns. Then remove the transition delays on the cs-drop-li so they don't have weird scattered animations */
+				// columns: 2;
+				position: absolute;
+				top: calc(100% - 2px);
+				z-index: 100;
+				transform: scaleY(0);
+				transform-origin: top;
+				transition:
+					transform 0.3s,
+					visibility 0.3s,
+					opacity 0.3s;
+			}
+
+			.cs-drop-li {
+				list-style: none;
+				font-size: (16/16rem);
+				text-decoration: none;
+				opacity: 0;
+				width: 100%;
+				height: auto;
+				display: block;
+				transform: translateY(-0.625rem);
+				transition:
+					opacity 0.6s,
+					transform 0.6s;
+
+				&:nth-of-type(1) {
+					transition-delay: 0.05s;
+				}
+				&:nth-of-type(2) {
+					transition-delay: 0.1s;
+				}
+				&:nth-of-type(3) {
+					transition-delay: 0.15s;
+				}
+				&:nth-of-type(4) {
+					transition-delay: 0.2s;
+				}
+				&:nth-of-type(5) {
+					transition-delay: 0.25s;
+				}
+				&:nth-of-type(6) {
+					transition-delay: 0.3s;
+				}
+				&:nth-of-type(7) {
+					transition-delay: 0.35s;
+				}
+				&:nth-of-type(8) {
+					transition-delay: 0.4s;
+				}
+				&:nth-of-type(9) {
+					transition-delay: 0.45s;
+				}
+			}
+
+			.cs-li-link {
+				&.cs-drop-link {
+					text-transform: capitalize;
+					white-space: nowrap;
+					width: 100%;
+					font-size: (16/16rem);
+					line-height: 1.5em;
+					text-decoration: none;
+					padding: (12/16rem);
+					/* prevents padding and border from affecting height and width */
+					box-sizing: border-box;
+					color: var(--bodyTextColorWhite);
+					display: block;
+					transition:
+						color 0.3s,
+						background-color 0.3s;
+
+					&:hover {
+						background-color: var(--primary);
+						color: var(--bodyTextColorWhite);
+					}
+
+					&:focus-visible {
+						outline-offset: -2px;
+					}
+
+					&:before {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
+	/*-- -------------------------- -->
 <---     Desktop Navigation     -->
 <--- -------------------------- -*/
 
 	/* Small Desktop - 1024px */
 	@media only screen and (min-width: 1024px) {
-		/* on scroll animations */
-		body.scroll {
-			#cs-navigation {
-				/* translate the whole navigation UP by the exact same height as the cs-top-bar (86px) so we can get that off screen and not have a tall clunky navbar. Then we translate the cs-logo DOWN so it lowers itself to be positioned centered in the cs-container, when it's not. It's just an illusion we create */
-				transform: translateY(-5.375rem);
-
-				.cs-logo {
-					transform: translateY(4.9rem);
-				}
-			}
-		}
-
 		#cs-navigation {
 			width: 100%;
-			/* prevents padding from affecting height and width */
+			/* prevents padding and border from affecting height and width */
 			box-sizing: border-box;
-			padding: 0;
-			background-color: #fff;
+			padding: 0 (16/16rem);
+			background-color: #1a1a1a;
 			position: fixed;
 			z-index: 10000;
-			transition: transform 0.3s;
-
-			.cs-top-bar {
-				width: 100%;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				position: relative;
-				z-index: 1;
-
-				&:before {
-					/* divider line */
-					content: "";
-					width: 100%;
-					height: 1px;
-					background: #000;
-					opacity: 0.1;
-					display: block;
-					position: absolute;
-					bottom: 0;
-					left: 0;
-				}
-			}
-
-			.cs-top-container {
-				width: 100%;
-				max-width: (1280/16rem);
-				/* prevents padding from affecting height and width */
-				box-sizing: border-box;
-				padding: (20/16rem);
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				gap: (50/16rem);
-				position: relative;
-				z-index: 1;
-			}
-
-			.cs-top-contact {
-				display: flex;
-				justify-content: flex-start;
-				align-items: center;
-				gap: (24/16rem);
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-			}
-
-			.cs-top-link {
-				font-size: (16/16rem);
-				line-height: 1.5em;
-				text-decoration: none;
-				margin: 0;
-				color: var(--headerColor);
-				display: flex;
-				justify-content: flex-start;
-				align-items: center;
-				gap: (8/16rem);
-				transition: color 0.3s;
-
-				&:hover {
-					text-decoration: underline;
-				}
-			}
-
-			.cs-link-icon {
-				width: (24/16rem);
-				height: auto;
-				display: block;
-			}
 
 			.cs-container {
 				width: 100%;
 				max-width: (1280/16rem);
 				/* same height as the cs-ul-wrapper */
-				height: (72/16rem);
+				height: (93/16rem);
 				margin: auto;
-				/* prevents padding from affectin gheight */
-				box-sizing: border-box;
-				padding: 0 (16/16rem);
 				display: flex;
 				justify-content: flex-end;
 				align-items: center;
@@ -874,18 +779,15 @@ import { Image } from "astro:assets";
 
 			.cs-logo {
 				width: 18.4%;
-				height: (40/16rem);
+				max-width: (350/16rem);
+				height: (32/16rem);
 				/* margin-right auto pushes everything away from it to the right */
 				margin: 0 auto 0 0;
 				padding: 0;
 				display: flex;
 				justify-content: center;
-				align-items: flex-start;
-				position: relative;
+				align-items: center;
 				z-index: 100;
-				transform-style: preserve-3d;
-				perspective: 500px;
-				transition: transform 0.3s;
 
 				img {
 					width: 100%;
@@ -893,35 +795,6 @@ import { Image } from "astro:assets";
 					/* ensures the image never overflows the container. It stays contained within it's width and height and expands to fill it then stops once it reaches an edge */
 					object-fit: contain;
 				}
-			}
-
-			.cs-dark {
-				-webkit-backface-visibility: hidden;
-				/* Safari */
-				backface-visibility: hidden;
-				transition:
-					opacity 0.3s,
-					transform 0.6s;
-			}
-
-			.cs-light {
-				width: 100%;
-				opacity: 0;
-				-webkit-backface-visibility: hidden;
-				/* Safari */
-				backface-visibility: hidden;
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: -1;
-				transform: rotateX(180deg);
-				transition:
-					opacity 0.3s,
-					transform 0.6s;
-			}
-
-			.cs-bottom-logo {
-				display: none;
 			}
 
 			.cs-ul-wrapper {
@@ -945,7 +818,7 @@ import { Image } from "astro:assets";
 
 			.cs-li {
 				list-style: none;
-				padding: (24/16rem) 0;
+				padding: (36/16rem) 0;
 				/* prevent flexbox from squishing it */
 				flex: none;
 			}
@@ -953,12 +826,12 @@ import { Image } from "astro:assets";
 			.cs-li-link {
 				/* 14px - 16px */
 				font-size: clamp(0.875rem, 0.6vw, 1rem);
-				line-height: 1.5rem;
+				line-height: 1.5em;
+				text-transform: uppercase;
 				text-decoration: none;
 				margin: 0;
-				color: var(--headerColor);
-				display: flex;
-				align-items: center;
+				color: var(--bodyTextColorWhite);
+				display: block;
 				position: relative;
 				transition: color 0.3s;
 
@@ -984,9 +857,7 @@ import { Image } from "astro:assets";
 				box-sizing: border-box;
 				padding: 0 (32/16rem);
 				background-color: var(--primary);
-				overflow: hidden;
 				color: #fff;
-				border-radius: (48/16rem);
 				display: inline-block;
 				position: relative;
 				z-index: 1;
@@ -1012,67 +883,14 @@ import { Image } from "astro:assets";
 					}
 				}
 			}
-
-			.cs-nav-button {
-				line-height: (46/16rem);
-			}
 		}
 	}
 
-	/* Dark Mode - 1024px */
+	/* Dark Mode */
 	@media only screen and (min-width: 1024px) {
 		body.dark-mode {
 			#cs-navigation {
 				background-color: var(--dark);
-				.cs-light {
-					opacity: 1;
-					transform: rotateX(0deg);
-				}
-
-				.cs-dark {
-					opacity: 0;
-					transform: rotateX(180deg);
-				}
-
-				.cs-top-bar {
-					&:before {
-						background-color: #fff;
-					}
-				}
-
-				.cs-top-link,
-				.cs-li-link {
-					color: var(--bodyTextColorWhite);
-				}
-
-				.cs-link-icon {
-					/* turns it white */
-					filter: grayscale(1) brightness(1000%);
-				}
-
-				.cs-li-link {
-					&.cs-active {
-						color: var(--primary);
-					}
-				}
-
-				.cs-li {
-					&:hover {
-						.cs-li-link {
-							color: var(--primary);
-						}
-					}
-
-					&.cs-dropdown {
-						.cs-li-link {
-							color: var(--bodyTextColorWhite);
-						}
-					}
-				}
-
-				.cs-drop-icon {
-					filter: none;
-				}
 			}
 		}
 	}
