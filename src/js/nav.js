@@ -34,9 +34,10 @@
 	};
 
 	// Utilities
-	const isMobile = () =>
-		window.matchMedia(`(max-width: ${CONFIG.BREAKPOINTS.MOBILE}px)`)
-			.matches;
+	const mobileMQL = window.matchMedia(
+		`(max-width: ${CONFIG.BREAKPOINTS.MOBILE}px)`,
+	);
+	const isMobile = () => mobileMQL.matches;
 
 	const toggleAttribute = (
 		element,
@@ -49,8 +50,14 @@
 		element.setAttribute(attribute, current === value1 ? value2 : value1);
 	};
 
-	const toggleInert = (element) =>
-		element && (element.inert = !element.inert);
+	// Always derived from current open state, never toggled blindly
+	const syncMenuInert = () => {
+		if (!elements.menuWrapper || !elements.navigation) return;
+		const isOpen = elements.navigation.classList.contains(
+			CONFIG.CLASSES.active,
+		);
+		elements.menuWrapper.inert = isMobile() && !isOpen;
+	};
 
 	// Menu Management
 	const menuManager = {
@@ -63,10 +70,7 @@
 			elements.body.classList.toggle(CONFIG.CLASSES.menuOpen);
 			toggleAttribute(elements.hamburger, "aria-expanded");
 
-			// Only manage inert state on mobile devices
-			if (elements.menuWrapper && isMobile()) {
-				toggleInert(elements.menuWrapper);
-			}
+			syncMenuInert();
 		},
 	};
 
@@ -136,14 +140,6 @@
 
 	// Initialization & Setup
 	const init = {
-		inertState() {
-			if (!elements.menuWrapper) return;
-
-			// On mobile, menu starts closed, so set inert=true
-			// On desktop, menu is always visible, so set inert=false
-			elements.menuWrapper.inert = isMobile();
-		},
-
 		eventListeners() {
 			if (!elements.hamburger || !elements.navigation) return;
 
@@ -173,9 +169,10 @@
 				scrollManager.handleScrollEffects(),
 			);
 
-			// Resize handling
-			window.addEventListener("resize", () => {
-				this.inertState();
+			// Breakpoint crossing (mobile <-> desktop) — not raw resize,
+			// so an address-bar collapse/expand on mobile is a no-op
+			mobileMQL.addEventListener("change", () => {
+				syncMenuInert();
 				if (
 					!isMobile() &&
 					elements.navigation.classList.contains(
@@ -189,6 +186,6 @@
 	};
 
 	// Initialize navigation system
-	init.inertState();
+	syncMenuInert();
 	init.eventListeners();
 })();
