@@ -32,32 +32,39 @@
 	};
 
 	// Utilities
-	const mobileMQL = window.matchMedia(`(max-width: ${CONFIG.BREAKPOINTS.MOBILE}px)`);
-	const isMobile = () => mobileMQL.matches;
+	const isMobile = () =>
+		window.matchMedia(`(max-width: ${CONFIG.BREAKPOINTS.MOBILE}px)`)
+			.matches;
 
-	const toggleAttribute = (element, attribute, value1 = "true", value2 = "false") => {
+	const toggleAttribute = (
+		element,
+		attribute,
+		value1 = "true",
+		value2 = "false",
+	) => {
 		if (!element) return;
 		const current = element.getAttribute(attribute);
 		element.setAttribute(attribute, current === value1 ? value2 : value1);
 	};
 
-	// Derives menu inert state from current open state instead of just breakpoint
-	const syncMenuInert = () => {
-		if (!elements.menuWrapper || !elements.navigation) return;
-		const isOpen = elements.navigation.classList.contains(CONFIG.CLASSES.active);
-		elements.menuWrapper.inert = isMobile() && !isOpen;
-	};
+	const toggleInert = (element) =>
+		element && (element.inert = !element.inert);
 
 	// Menu Management
 	const menuManager = {
 		toggle() {
 			if (!elements.hamburger || !elements.navigation) return;
 
-			[elements.hamburger, elements.navigation].forEach((el) => el.classList.toggle(CONFIG.CLASSES.active));
+			[elements.hamburger, elements.navigation].forEach((el) =>
+				el.classList.toggle(CONFIG.CLASSES.active),
+			);
 			elements.body.classList.toggle(CONFIG.CLASSES.menuOpen);
 			toggleAttribute(elements.hamburger, "aria-expanded");
 
-			syncMenuInert();
+			// Only manage inert state on mobile devices
+			if (elements.menuWrapper && isMobile()) {
+				toggleInert(elements.menuWrapper);
+			}
 		},
 	};
 
@@ -67,7 +74,10 @@
 			if (!elements.navigation) return;
 
 			// Close hamburger menu if open
-			if (elements.hamburger && elements.hamburger.classList.contains(CONFIG.CLASSES.active)) {
+			if (
+				elements.hamburger &&
+				elements.hamburger.classList.contains(CONFIG.CLASSES.active)
+			) {
 				menuManager.toggle();
 				elements.hamburger.focus();
 			}
@@ -77,8 +87,16 @@
 	// Event Management
 	const eventManager = {
 		handleMobileFocus(event) {
-			if (!isMobile() || !elements.navigation.classList.contains(CONFIG.CLASSES.active)) return;
-			if (elements.menuWrapper.contains(event.target) || elements.hamburger.contains(event.target)) return;
+			if (
+				!isMobile() ||
+				!elements.navigation.classList.contains(CONFIG.CLASSES.active)
+			)
+				return;
+			if (
+				elements.menuWrapper.contains(event.target) ||
+				elements.hamburger.contains(event.target)
+			)
+				return;
 
 			menuManager.toggle();
 		},
@@ -97,14 +115,15 @@
 		manageElementsInert(isScrolled) {
 			// Top bar is always inert when scrolled on both mobile and desktop
 			if (elements.topBar) elements.topBar.inert = isScrolled;
-			
+
 			if (isMobile()) {
 				// On mobile: navButton is display:none anyway, darkModeToggle is always focusable
 				if (elements.navButton) elements.navButton.inert = true; // Always inert since it's hidden
 			} else {
 				// On desktop: both darkModeToggle and navButton are always focusable
 				if (elements.navButton) elements.navButton.inert = false;
-				if (elements.darkModeToggle) elements.darkModeToggle.inert = false;
+				if (elements.darkModeToggle)
+					elements.darkModeToggle.inert = false;
 			}
 		},
 	};
@@ -112,7 +131,11 @@
 	// Initialization & Setup
 	const init = {
 		inertState() {
-			syncMenuInert();
+			if (!elements.menuWrapper) return;
+
+			// On mobile, menu starts closed, so set inert=true
+			// On desktop, menu is always visible, so set inert=false
+			elements.menuWrapper.inert = isMobile();
 		},
 
 		eventListeners() {
@@ -121,20 +144,38 @@
 			// Hamburger menu
 			elements.hamburger.addEventListener("click", menuManager.toggle);
 			elements.navigation.addEventListener("click", (e) => {
-				if (e.target === elements.navigation && elements.navigation.classList.contains(CONFIG.CLASSES.active)) {
+				if (
+					e.target === elements.navigation &&
+					elements.navigation.classList.contains(
+						CONFIG.CLASSES.active,
+					)
+				) {
 					menuManager.toggle();
 				}
 			});
 
 			// Global events
-			document.addEventListener("keydown", (e) => e.key === "Escape" && keyboardManager.handleEscape());
-			document.addEventListener("focusin", eventManager.handleMobileFocus);
-			document.addEventListener("scroll", () => scrollManager.handleScrollEffects());
+			document.addEventListener(
+				"keydown",
+				(e) => e.key === "Escape" && keyboardManager.handleEscape(),
+			);
+			document.addEventListener(
+				"focusin",
+				eventManager.handleMobileFocus,
+			);
+			document.addEventListener("scroll", () =>
+				scrollManager.handleScrollEffects(),
+			);
 
-			// Breakpoint-crossing handling
-			mobileMQL.addEventListener("change", (e) => {
-				syncMenuInert();
-				if (!e.matches && elements.navigation.classList.contains(CONFIG.CLASSES.active)) {
+			// Resize handling
+			window.addEventListener("resize", () => {
+				this.inertState();
+				if (
+					!isMobile() &&
+					elements.navigation.classList.contains(
+						CONFIG.CLASSES.active,
+					)
+				) {
 					menuManager.toggle();
 				}
 			});
