@@ -1,3 +1,7 @@
+// ==============================
+// Navigation & Accessibility JS
+// ==============================
+
 (() => {
 	// Configuration
 	const CONFIG = {
@@ -9,8 +13,13 @@
 			navigation: "#cs-navigation",
 			hamburger: "#cs-navigation .cs-toggle",
 			menuWrapper: "#cs-ul-wrapper",
-			topBar: ".cs-top-bar",
+			dropdownToggle: ".cs-dropdown-toggle",
+			dropdown: ".cs-dropdown",
+			dropdownMenu: ".cs-drop-ul",
+			topContact: ".cs-top-contact",
 			navButton: ".cs-nav-button",
+			topLogo: ".cs-top-logo",
+			bottomLogo: ".cs-bottom-logo",
 			darkModeToggle: "#dark-mode-toggle",
 		},
 		CLASSES: {
@@ -26,15 +35,18 @@
 		navigation: document.querySelector(CONFIG.SELECTORS.navigation),
 		hamburger: document.querySelector(CONFIG.SELECTORS.hamburger),
 		menuWrapper: document.querySelector(CONFIG.SELECTORS.menuWrapper),
-		topBar: document.querySelector(CONFIG.SELECTORS.topBar),
+		topContact: document.querySelector(CONFIG.SELECTORS.topContact),
 		navButton: document.querySelector(CONFIG.SELECTORS.navButton),
+		topLogo: document.querySelector(CONFIG.SELECTORS.topLogo),
+		bottomLogo: document.querySelector(CONFIG.SELECTORS.bottomLogo),
 		darkModeToggle: document.querySelector(CONFIG.SELECTORS.darkModeToggle),
 	};
 
 	// Utilities
-	const isMobile = () =>
-		window.matchMedia(`(max-width: ${CONFIG.BREAKPOINTS.MOBILE}px)`)
-			.matches;
+	const mobileMQL = window.matchMedia(
+		`(max-width: ${CONFIG.BREAKPOINTS.MOBILE}px)`,
+	);
+	const isMobile = () => mobileMQL.matches;
 
 	const toggleAttribute = (
 		element,
@@ -47,13 +59,93 @@
 		element.setAttribute(attribute, current === value1 ? value2 : value1);
 	};
 
-	const toggleInert = (element) =>
-		element && (element.inert = !element.inert);
+	// Derives menu inert state from current open state instead of just breakpoint
+	const syncMenuInert = () => {
+		if (!elements.menuWrapper || !elements.navigation) return;
+		const isOpen = elements.navigation.classList.contains(
+			CONFIG.CLASSES.active,
+		);
+		elements.menuWrapper.inert = isMobile() && !isOpen;
+	};
+
+	// Derives each dropdown menu's inert state; dropdowns are only ever inert on
+	// mobile (desktop relies on CSS/keyboard visibility, never on inert) and only
+	// when closed
+	const syncDropdownInert = () => {
+		if (!elements.navigation) return;
+		elements.navigation
+			.querySelectorAll(CONFIG.SELECTORS.dropdown)
+			.forEach((dropdown) => {
+				const menu = dropdown.querySelector(
+					CONFIG.SELECTORS.dropdownMenu,
+				);
+				if (!menu) return;
+				const isOpen = dropdown.classList.contains(
+					CONFIG.CLASSES.active,
+				);
+				menu.inert = isMobile() && !isOpen;
+			});
+	};
+
+	// Dropdown Management
+	const dropdownManager = {
+		close(dropdown, shouldFocus = false) {
+			if (
+				!dropdown ||
+				!dropdown.classList.contains(CONFIG.CLASSES.active)
+			)
+				return false;
+
+			dropdown.classList.remove(CONFIG.CLASSES.active);
+			const button = dropdown.querySelector(
+				CONFIG.SELECTORS.dropdownToggle,
+			);
+
+			if (button) {
+				button.setAttribute("aria-expanded", "false");
+				shouldFocus && button.focus();
+			}
+
+			syncDropdownInert();
+
+			return true;
+		},
+
+		toggle(element) {
+			element.classList.toggle(CONFIG.CLASSES.active);
+			const button = element.querySelector(
+				CONFIG.SELECTORS.dropdownToggle,
+			);
+
+			button && toggleAttribute(button, "aria-expanded");
+			syncDropdownInert();
+		},
+
+		closeAll() {
+			if (!elements.navigation) return false;
+			let closed = false;
+
+			elements.navigation
+				.querySelectorAll(
+					`${CONFIG.SELECTORS.dropdown}.${CONFIG.CLASSES.active}`,
+				)
+				.forEach((dropdown) => {
+					this.close(dropdown, true);
+					closed = true;
+				});
+
+			return closed;
+		},
+	};
 
 	// Menu Management
 	const menuManager = {
 		toggle() {
 			if (!elements.hamburger || !elements.navigation) return;
+
+			const isClosing = elements.navigation.classList.contains(
+				CONFIG.CLASSES.active,
+			);
 
 			[elements.hamburger, elements.navigation].forEach((el) =>
 				el.classList.toggle(CONFIG.CLASSES.active),
@@ -61,10 +153,10 @@
 			elements.body.classList.toggle(CONFIG.CLASSES.menuOpen);
 			toggleAttribute(elements.hamburger, "aria-expanded");
 
-			// Only manage inert state on mobile devices
-			if (elements.menuWrapper && isMobile()) {
-				toggleInert(elements.menuWrapper);
-			}
+			syncMenuInert();
+
+			// When closing the mobile menu, also close any open dropdowns
+			isClosing && dropdownManager.closeAll();
 		},
 	};
 
@@ -73,7 +165,11 @@
 		handleEscape() {
 			if (!elements.navigation) return;
 
-			// Close hamburger menu if open
+			// Close any open dropdown menus first
+			const dropdownsClosed = dropdownManager.closeAll();
+			if (dropdownsClosed) return;
+
+			// Then close hamburger menu if open
 			if (
 				elements.hamburger &&
 				elements.hamburger.classList.contains(CONFIG.CLASSES.active)
@@ -86,6 +182,67 @@
 
 	// Event Management
 	const eventManager = {
+		handleDropdownClick(event) {
+			if (!isMobile()) return;
+
+			const button = event.target.closest(
+				CONFIG.SELECTORS.dropdownToggle,
+			);
+			if (!button) return;
+
+			event.preventDefault();
+			const dropdown = button.closest(CONFIG.SELECTORS.dropdown);
+			if (dropdown) {
+				dropdownManager.toggle(dropdown);
+			}
+		},
+
+		handleDropdownKeydown(event) {
+			if (event.key !== "Enter" && event.key !== " ") return;
+
+			const button = event.target.closest(
+				CONFIG.SELECTORS.dropdownToggle,
+			);
+			if (!button) return;
+
+			event.preventDefault();
+			const dropdown = button.closest(CONFIG.SELECTORS.dropdown);
+			if (dropdown) {
+				if (isMobile()) {
+					dropdownManager.toggle(dropdown);
+				} else {
+					// Desktop keyboard navigation
+					dropdown.classList.toggle(CONFIG.CLASSES.active);
+					toggleAttribute(button, "aria-expanded");
+				}
+			}
+		},
+
+		handleFocusOut(event) {
+			setTimeout(() => {
+				if (!event.relatedTarget) return;
+
+				const dropdown = event.target.closest(
+					CONFIG.SELECTORS.dropdown,
+				);
+				if (
+					dropdown?.classList.contains(CONFIG.CLASSES.active) &&
+					!dropdown.contains(event.relatedTarget)
+				) {
+					if (isMobile()) {
+						dropdownManager.close(dropdown);
+					} else {
+						// On desktop, just remove cs-active class, don't touch inert
+						dropdown.classList.remove(CONFIG.CLASSES.active);
+						const button = dropdown.querySelector(
+							CONFIG.SELECTORS.dropdownToggle,
+						);
+						button && button.setAttribute("aria-expanded", "false");
+					}
+				}
+			}, 10);
+		},
+
 		handleMobileFocus(event) {
 			if (
 				!isMobile() ||
@@ -109,21 +266,25 @@
 			const isScrolled = scrollPosition >= 100;
 
 			elements.body.classList.toggle(CONFIG.CLASSES.scroll, isScrolled);
-			this.manageElementsInert(isScrolled);
+			this.manageLogo(isScrolled);
+
+			// Make individual elements inert when scrolled
+			if (elements.topContact) elements.topContact.inert = isScrolled;
+			if (elements.navButton) elements.navButton.inert = isScrolled;
+			if (elements.darkModeToggle)
+				elements.darkModeToggle.inert = isScrolled;
 		},
 
-		manageElementsInert(isScrolled) {
-			// Top bar is always inert when scrolled on both mobile and desktop
-			if (elements.topBar) elements.topBar.inert = isScrolled;
+		manageLogo(isScrolled) {
+			if (elements.topLogo) {
+				// Top logo is inert only on mobile devices, never on desktop
+				elements.topLogo.inert = isMobile();
+			}
 
-			if (isMobile()) {
-				// On mobile: navButton is display:none anyway, darkModeToggle is always focusable
-				if (elements.navButton) elements.navButton.inert = true; // Always inert since it's hidden
-			} else {
-				// On desktop: both darkModeToggle and navButton are always focusable
-				if (elements.navButton) elements.navButton.inert = false;
-				if (elements.darkModeToggle)
-					elements.darkModeToggle.inert = false;
+			if (elements.bottomLogo) {
+				// Bottom logo should not be inert on mobile
+				// On desktop, it's active ONLY when scrolled.
+				elements.bottomLogo.inert = isMobile() ? false : !isScrolled;
 			}
 		},
 	};
@@ -131,11 +292,8 @@
 	// Initialization & Setup
 	const init = {
 		inertState() {
-			if (!elements.menuWrapper) return;
-
-			// On mobile, menu starts closed, so set inert=true
-			// On desktop, menu is always visible, so set inert=false
-			elements.menuWrapper.inert = isMobile();
+			syncMenuInert();
+			syncDropdownInert();
 		},
 
 		eventListeners() {
@@ -154,6 +312,20 @@
 				}
 			});
 
+			// Dropdown delegation
+			elements.navigation.addEventListener(
+				"click",
+				eventManager.handleDropdownClick,
+			);
+			elements.navigation.addEventListener(
+				"keydown",
+				eventManager.handleDropdownKeydown,
+			);
+			elements.navigation.addEventListener(
+				"focusout",
+				eventManager.handleFocusOut,
+			);
+
 			// Global events
 			document.addEventListener(
 				"keydown",
@@ -167,11 +339,12 @@
 				scrollManager.handleScrollEffects(),
 			);
 
-			// Resize handling
-			window.addEventListener("resize", () => {
-				this.inertState();
+			// Breakpoint-crossing handling
+			mobileMQL.addEventListener("change", (e) => {
+				syncMenuInert();
+				syncDropdownInert();
 				if (
-					!isMobile() &&
+					!e.matches &&
 					elements.navigation.classList.contains(
 						CONFIG.CLASSES.active,
 					)
