@@ -197,13 +197,34 @@
   }
 
   // Hidden Screen reader skip nav button
-  .skip {
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1111111;
-  }
+  // Hidden Screen reader skip nav button
+	.skip {
+		position: absolute;
+		left: -999px;
+		top: auto;
+		width: 1px;
+		height: 1px;
+		z-index: -999;
+		overflow: hidden;
+		&:focus {
+			position: fixed;
+			top: (16/16rem);
+			left: (16/16rem);
+			width: auto;
+			height: auto;
+			overflow: visible;
+			z-index: 10001;
+			padding: (12/16rem) (20/16rem);
+			font-size: (16/16rem);
+			font-weight: 700;
+			color: var(--primary);
+			background-color: var(--secondary);
+			border-radius: (4/16rem);
+			text-decoration: none;
+			outline: 3px solid var(--primary);
+			outline-offset: 2px;
+		}
+	}
 }
 
 /* Reset Margins */
